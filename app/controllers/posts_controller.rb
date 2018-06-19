@@ -23,6 +23,7 @@ class PostsController < ApplicationController
     # post.title = params[:title]
     # post.body = params[:body]
     # post.save
+
   end
 
   def show
@@ -33,6 +34,17 @@ class PostsController < ApplicationController
     post = Post.find(params[:id])
     post.destroy
     redirect_to '/'
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    post = Post.find(params[:id])
+    post.update(title: params[:title],
+                body: params[:body])
+    redirect_to "/posts/#{post.id}"
   end
 
 end
