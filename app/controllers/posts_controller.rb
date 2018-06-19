@@ -12,6 +12,7 @@ class PostsController < ApplicationController
                 body: params[:body]
     )
 
+    flash[:notice]="글이 작성되었습니다."
     #text안에 변수를 넣을 때 (string interpolation)
     #반드시 ""를 사용해야 함.
     redirect_to "/posts/#{post.id}"
@@ -33,6 +34,7 @@ class PostsController < ApplicationController
   def destroy
     post = Post.find(params[:id])
     post.destroy
+    flash[:alert]="글이 삭제되었습니다."
     redirect_to '/'
   end
 
@@ -44,6 +46,7 @@ class PostsController < ApplicationController
     post = Post.find(params[:id])
     post.update(title: params[:title],
                 body: params[:body])
+    flash[:notice]="글이 수정되었습니다."
     redirect_to "/posts/#{post.id}"
   end
 
