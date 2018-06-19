@@ -51,26 +51,47 @@ $ rake db:migrate
 - Create
 
 ```console
-irb(main):001:0>  Post.create(title: "제목", body: "내용")
+irb(main):001:0 > Post.create(title: "제목", body: "내용")
+   (0.1ms)  begin transaction
+  SQL (5.3ms)  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "제목"], ["body", "내용"], ["created_at", "2018-06-19 08:29:59.313013"], ["updated_at", "2018-06-19 08:29:59.313013"]]
+   (3.9ms)  commit transaction
 ```
 
 - Read
 
 ```console
-irb(main):001:0>  Post.find(id)
+  irb(main):001:0 > Post.find(id)
+     (0.1ms)  begin transaction
+    SQL (5.3ms)  INSERT INTO "posts" ("title", "body", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "제목"], ["body", "내용"], ["created_at", "2018-06-19 08:29:59.313013"], ["updated_at", "2018-06-19 08:29:59.313013"]]
+     (3.9ms)  commit transaction
+  => #<Post id: 1, title: "제목", body: "내용", created_at: "2018-06-19 08:29:59", updated_at: "2018-06-19 08:29:59">
+  irb(main):002:0> Post.find(1)
+    Post Load (1.9ms)  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT 1  [["id", 1]]
+  => #<Post id: 1, title: "제목", body: "내용", created_at: "2018-06-19 08:29:59", updated_at: "2018-06-19 08:29:59">
 ```
 
 - Update
 
 ```console
-irb(main):001:0 > post = Post.find(id)
-irb(main):002:0 > post.update(title: "변경", body: "변경")
+  irb(main):001:0 > post = Post.find(id)
+  irb(main):002:0 > post.update(title: "변경", body: "변경")
+  irb(main):003:0> Post.find(1).update(title: "변경", body: " 변경")
+    Post Load (1.8ms)  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT 1  [["id", 1]]
+     (0.1ms)  begin transaction
+    SQL (8.1ms)  UPDATE "posts" SET "title" = ?, "body" = ?, "updated_at" = ? WHERE "posts"."id" = ?  [["title", "변경"], ["body", "변경"], ["updated_at", "2018-06-19 08:31:14.239322"], ["id", 1]]
+     (5.7ms)  commit transaction
+  => true
 ```
 
 - Destroy
 
 ```console
-irb(main):001:0 > Post.find(id).destroy
+ irb(main):001:0 > Post.find(id).destroy
+    Post Load (1.9ms)  SELECT  "posts".* FROM "posts" WHERE "posts"."id" = ? LIMIT 1  [["id", 1]]
+     (0.1ms)  begin transaction
+    SQL (6.5ms)  DELETE FROM "posts" WHERE "posts"."id" = ?  [["id", 1]]
+     (5.6ms)  commit transaction
+  => #<Post id: 1, title: "변경", body: "변경", created_at: "2018-06-19 08:29:59", updated_at: "2018-06-19 08:31:14">
 ```
 
 
